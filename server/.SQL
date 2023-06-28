@@ -1,0 +1,33 @@
+CREATE DATABASE fullstack_app;
+
+USE fullstack_app;
+
+CREATE TABLE users(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE posts(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  text VARCHAR(10000) NOT NULL,
+  imgUrl VARCHAR(255) DEFAULT '',
+  views INT DEFAULT 0,
+  comments INT DEFAULT 0,
+  userId INT NOT NULL,
+  created DATETIME DEFAULT now(),
+  FOREIGN KEY (userId) REFERENCES users (id) 
+);
+
+CREATE TABLE comments(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  text VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL,
+  userId INT NOT NULL,
+  postId INT NOT NULL,
+  created DATETIME DEFAULT now(),
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE
+);
